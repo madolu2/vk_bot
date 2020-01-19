@@ -1,8 +1,7 @@
-import vk_api
 from datetime import datetime
-from vk_api.utils import get_random_id
 
 class VkBot:
+
 
     def __init__(self, event):
         self.EVENT = event
@@ -10,19 +9,6 @@ class VkBot:
         self.FROM_ID = event.message['from_id']
         self.CHAT_ID = event.chat_id
 
-    def send_message(self, message):
-        if self.EVENT.from_chat:
-            vk.messages.send(
-                        user_id=self.FROM_ID,
-                        message=message,
-                        random_id=get_random_id()
-    		)
-        else:
-            vk.messages.send(
-                        chat_id=self.EVENT.chat_id,
-                        message=message,
-                        random_id=get_random_id()
-    		)
 
     def console_log(self, event):
         time = datetime.strftime(datetime.now(), '%H:%M')
