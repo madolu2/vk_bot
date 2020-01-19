@@ -1,7 +1,19 @@
+import vk_api
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 from dvach import Dvach
 from parse import *
 
+
+
+def threads_from_board(dvach_instance, vkBot_instance):
+    try:
+        board = parse('треды {board}', vkBot_instance.TEXT)['board']
+        return dvach_instance.get_thread_list(board)
+    except:
+        vkBot_instance.send_message('Что-то не так')
+
+
+def single_thread(dvach_instance, vkBot_instance):
 
 
 def thread_format(dvach, event, choice=False):
@@ -28,6 +40,8 @@ token = "5b121f534ed551acff6595ad366534d14a6aa9097556c6c11beb6ab9ad5ac1b43c3189f
 bot_session = vk_api.VkApi(token=token)
 vk = bot_session.get_api()
 longpoll = VkBotLongPoll(bot_session, 177063309)
+
+global board
 
 for event in longpoll.listen():
     dvach = Dvach()

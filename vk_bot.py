@@ -1,5 +1,4 @@
-import bs4
-import requests
+import vk_api
 from datetime import datetime
 from vk_api.utils import get_random_id
 
@@ -7,9 +6,9 @@ class VkBot:
 
     def __init__(self, event):
         self.EVENT = event
-        self.CHAT_ID = event.chat_id
         self.TEXT = event.message['text']
         self.FROM_ID = event.message['from_id']
+        self.CHAT_ID = event.chat_id
 
     def send_message(self, message):
         if self.EVENT.from_chat:

@@ -12,16 +12,16 @@ class Dvach(object):
     def get_thread_list(self, board):
         response = requests.get(f'https://2ch.hk/{board}/threads.json').json()
         threads = {}
-        for t in range(10):
+        for t in range(4):
             header = self.clean_all_tag_from_str(response['threads'][t]['subject'])
             content = self.clean_all_tag_from_str(response['threads'][t]['comment'])
             threads[t] = {'header': header, 'content': content}
         return threads
 
-    # def get_thread(self, thread, board=None):
-    #     threads = get_thread_list(board)
-    #     header = threads[thread]['threads'][0]['posts'][0]['subject']
-    #     content = threads[thread]['threads'][0]['posts'][0]['comment']
+    def get_thread(self, thread, board=None):
+        threads = get_thread_list(board)
+        header = threads[thread]['threads'][0]['posts'][0]['subject']
+        content = threads[thread]['threads'][0]['posts'][0]['comment']
 
 
     def get_thread_by_id(self, board, thread_id):
