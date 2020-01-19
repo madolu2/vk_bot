@@ -10,6 +10,6 @@ class VkBot:
         self.CHAT_ID = event.chat_id
 
 
-    def console_log(self, event):
+    def console_log(self):
         time = datetime.strftime(datetime.now(), '%H:%M')
         print(f'{time} написал - {self.TEXT}')

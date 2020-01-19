@@ -20,7 +20,7 @@ class Dvach(object):
         return threads
 
     def get_thread(self, thread, board='news'):
-        threads = get_thread_list(board)
+        threads = self.get_thread_list(board)
         return threads[thread]
 
     @staticmethod
