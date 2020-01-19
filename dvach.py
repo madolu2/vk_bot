@@ -8,25 +8,20 @@ class Dvach(object):
     def __init__(self):
         pass
 
-
     def get_thread_list(self, board):
-        response = requests.get(f'https://2ch.hk/{board}/threads.json').json()
+        url = f'https://2ch.hk/{board}/threads.json'
+        response = requests.get(url).json()
         threads = {}
         for t in range(4):
             header = self.clean_all_tag_from_str(response['threads'][t]['subject'])
             content = self.clean_all_tag_from_str(response['threads'][t]['comment'])
-            threads[t] = {'header': header, 'content': content}
+            id = self.clean_all_tag_from_str(response['threads'][t]['num'])
+            threads[t] = {'header': header, 'content': content, 'id': id}
         return threads
 
-    def get_thread(self, thread, board=None):
+    def get_thread(self, thread, board='news'):
         threads = get_thread_list(board)
-        header = threads[thread]['threads'][0]['posts'][0]['subject']
-        content = threads[thread]['threads'][0]['posts'][0]['comment']
-
-
-    def get_thread_by_id(self, board, thread_id):
-        response = requests.get(f'https://2ch.hk/{board}/res/{thread_id}.json').json()
-        return response
+        return threads[thread]
 
     @staticmethod
     def clean_all_tag_from_str(string_line):
