@@ -87,6 +87,42 @@ def single_thread(dvach_instance, vkBot_instance):
     except:
         send_message(vkBot_instance, 'Что-то не так')
 
+def send_schedule(vkBot_instance, single=False, specific=False):
+    if single:
+        try:
+            schedule = vkBot_instance.get_schedule()
+            command = parse('расписание {day}',vkBot_instance.TEXT)['day']
+            day = vkBot_instance.message_to_day(command)
+            print(day)
+            schedule = schedule[day]
+            message = ''
+            for i in schedule:
+                if i == 'day':
+                    message += f'{schedule[i]}\n'
+                else:
+                    message += " | ".join(str(x) for x in schedule[i]) + '\n'
+            send_message(vkBot_instance, message)
+        except:
+            send_message(vkBot_instance, 'Ты выбрал какой то неверный день')
+    if specific:
+        try:
+            schedule = vkBot_instance.get_schedule()
+            command = parse('пара {day} {num}',vkBot_instance.TEXT)
+            day = vkBot_instance.message_to_day(command['day'])
+            schedule = schedule[day][int(command['num'])-1]
+            message = " | ".join(str(x) for x in schedule) + '\n'
+            send_message(vkBot_instance, message)
+        except:
+            send_message(vkBot_instance, 'Неверная цифра друг')
+
+def send_doc(vkBot_instance):
+    message = '''треды (имя доски) => выведет 5 заголовков тредов с конкретной доски\nПРИМЕР треды news\n
+(имя доски) тред номер (цифра) => выведет конкретный тред из функции выше. 18+ картинки не выводит\nПРИМЕР b тред номер 2\n
+жопа => САМ ЖОПА\n
+расписание (день недели)=> выведет расписание 283а группы пту лучшего города на земле\nПРИМЕР расписание среда\n
+пара (день недели) (цифра)=> выведет конкретную пару\nПРИМЕР пара четверг 2\n'''
+    send_message(vkBot_instance, message)
+
 for event in longpoll.listen():
     if event.type == VkBotEventType.MESSAGE_NEW and event.message:
         bot = VkBot(event)
@@ -99,3 +135,9 @@ for event in longpoll.listen():
             send_message(bot, 'нет ты!!!')
         if 'алиса' in bot.TEXT.lower():
             send_message(bot, 'Такая красивая <3 <3 <3')
+        if 'расписание' in bot.TEXT.lower():
+            send_schedule(bot, single=True)
+        if 'пара' in bot.TEXT.lower():
+            send_schedule(bot, specific=True)
+        if 'документация' in bot.TEXT.lower():
+            send_doc(bot)

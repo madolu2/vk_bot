@@ -12,7 +12,7 @@ class Dvach(object):
         url = f'https://2ch.hk/{board}/threads.json'
         response = requests.get(url).json()
         threads = {}
-        for t in range(4):
+        for t in range(6):
             header = self.clean_all_tag_from_str(response['threads'][t]['subject'])
             content = self.clean_all_tag_from_str(response['threads'][t]['comment'])
             id = self.clean_all_tag_from_str(response['threads'][t]['num'])
